@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>AR ROYAL DONUTS</title>
+  <title>AR Royal Donuts</title>
 
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.4/dist/mindar-image-aframe.prod.js"></script>
@@ -20,99 +20,66 @@
   >
     <a-assets>
       <a-asset-item id="donutsModel" src="donuts.glb"></a-asset-item>
-      <!-- si tu veux un modèle différent pour la 2e target, ajoute-le ici -->
-      <!-- <a-asset-item id="AutreModele" src="autre-modele.glb"></a-asset-item> -->
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-
+    <!-- Lumières (ajuste les intensités si nécessaire) -->
     <a-light type="ambient" intensity="1"></a-light>
-    <a-light type="directional" position="1 2 1" intensity="1.2" castShadow="true"></a-light>
+    <a-light type="directional" position="1 2 1" intensity="1.2"castShadow="true"></a-light>
 
-    <!-- TARGET 0 -->
-    <a-entity mindar-image-target="targetIndex: 0" id="target0">
-      <a-entity
-        id="parent0"
-        rotation="0 0 0"
-        animation="property: rotation;
-                   to: 0 0 360;
-                   loop: true;
-                   dur: 10000;
-                   easing: linear;
-                   startEvents: start-rotate">
 
-        <a-entity
-          id="donuts0"
-          gltf-model="#donutsModel"
-          position="0 0 -0.8"
-          scale="0.5 0.5 0.5"
-          rotation="0 0 0"
-          animation__move="property: position;
-                           from: 0 0 -0.8;
-                           to: 0 0 0;
-                           dur: 1200;
-                           easing: easeOutBack;
-                           startEvents: start-animation"
-          animation__spin="property: rotation;
-                           from: 0 0 0;
-                           to: 0 0 360;
-                           dur: 1200;
-                           easing: easeOutCubic;
-                           startEvents: start-animation">
-        </a-entity>
+  <!-- Parent = rotation lente continue -->
+  <a-entity mindar-image-target="targetIndex: 0" id="target">
 
-      </a-entity>
+  <!-- Rotation lente continue -->
+  <a-entity
+    id="parent"
+    rotation="0 0 0"
+    animation="property: rotation;
+               to: 0 0 360;
+               loop: true;
+               dur: 10000;
+               easing: linear;
+               startEvents: start-rotate">
+
+    <!-- Modèle -->
+    <a-entity
+      id="donuts"
+      gltf-model="#donutsModel"
+      position="0 0 -0.8"
+      scale="0.5 0.5 0.5"
+      rotation="0 0 0"
+
+      animation__move="property: position;
+                       from: 0 0 -0.8;
+                       to: 0 0 0;
+                       dur: 1200;
+                       easing: easeOutBack;
+                       startEvents: start-animation"
+
+      animation__spin="property: rotation;
+                       from: 0 0 0;
+                       to: 0 0 360;
+                       dur: 1200;
+                       easing: easeOutCubic;
+                       startEvents: start-animation">
     </a-entity>
 
-    <!-- TARGET 1 -->
-    <a-entity mindar-image-target="targetIndex: 1" id="target1">
-      <a-entity
-        id="parent1"
-        rotation="0 0 0"
-        animation="property: rotation;
-                   to: 0 0 360;
-                   loop: true;
-                   dur: 10000;
-                   easing: linear;
-                   startEvents: start-rotate">
+  </a-entity>
 
-        <a-entity
-          id="donuts1"
-          gltf-model="#donutsModel"
-          position="0 0 -0.8"
-          scale="0.5 0.5 0.5"
-          rotation="0 0 0"
-          animation__move="property: position;
-                           from: 0 0 -0.8;
-                           to: 0 0 0;
-                           dur: 1200;
-                           easing: easeOutBack;
-                           startEvents: start-animation"
-          animation__spin="property: rotation;
-                           from: 0 0 0;
-                           to: 0 0 360;
-                           dur: 1200;
-                           easing: easeOutCubic;
-                           startEvents: start-animation">
-        </a-entity>
+</a-entity>
 
-      </a-entity>
-    </a-entity>
 
-    <script>
-      const target0 = document.querySelector("#target0");
-      const target1 = document.querySelector("#target1");
 
-      target0.addEventListener("targetFound", () => {
-        document.querySelector("#donuts0").emit("start-animation");
-        document.querySelector("#parent0").emit("start-rotate");
-      });
+<script>
+  const target = document.querySelector("#target");
 
-      target1.addEventListener("targetFound", () => {
-        document.querySelector("#donuts1").emit("start-animation");
-        document.querySelector("#parent1").emit("start-rotate");
-      });
-    </script>
+  target.addEventListener("targetFound", () => {
+    document.querySelector("#donuts").emit("start-animation");
+    document.querySelector("#parent").emit("start-rotate");
+  });
+</script>
+
 
   </a-scene>
 </body>
